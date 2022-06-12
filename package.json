@@ -158,7 +158,7 @@
     "duration": "^0.2.1",
     "escape-string-regexp": "^1.0.5",
     "figures": "2.0.0",
-    "gherkin": "^5.0.0",
+    "gherkin": "github:Twistbioscience/gherkin-javascript#TAUT-1586-interpolate-scenario-outline-tags",
     "glob": "^7.1.3",
     "indent-string": "^3.1.0",
     "is-generator": "^1.0.2",
