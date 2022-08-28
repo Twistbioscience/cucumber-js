@@ -1,4 +1,5 @@
 .idea/
+dist/
 .nyc_output_feature/
 .nyc_output_unit/
 .nyc_output/
