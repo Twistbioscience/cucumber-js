@@ -4,6 +4,7 @@ import Status from '../status'
 import { formatLocation, GherkinDocumentParser, PickleParser } from './helpers'
 import { buildStepArgumentIterator } from '../step_arguments'
 import { format } from 'assertion-error-formatter'
+import * as fs from 'fs'
 
 const {
   getStepLineToKeywordMap,
@@ -20,6 +21,7 @@ export default class JsonFormatter extends Formatter {
   constructor(options) {
     super(options)
     options.eventBroadcaster.on('test-run-finished', ::this.onTestRunFinished)
+    options.eventBroadcaster.on('save-test-results', ::this.onTestRunFinished)
   }
 
   convertNameToId(obj) {
@@ -89,7 +91,11 @@ export default class JsonFormatter extends Formatter {
       })
       return featureData
     })
-    this.log(JSON.stringify(features, null, 2))
+    if (this.outputTo) {
+      fs.writeFileSync(this.outputTo, JSON.stringify(features, null, 2))
+    } else {
+      this.log(JSON.stringify(features, null, 2))
+    }
   }
 
   getFeatureData(feature, uri) {

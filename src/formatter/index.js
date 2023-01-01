@@ -11,6 +11,7 @@ export default class Formatter {
         'log',
         'snippetBuilder',
         'stream',
+        'outputTo',
         'supportCodeLibrary',
       ])
     )

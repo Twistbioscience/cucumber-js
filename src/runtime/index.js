@@ -7,6 +7,13 @@ import TestCaseRunner from './test_case_runner'
 import UserCodeRunner from '../user_code_runner'
 import VError from 'verror'
 
+// Super ugly hack - export the current runtime instance so that we can call triggerResultSave()
+let currentRuntime
+
+export function getCurrentRuntime() {
+  return currentRuntime
+}
+
 export default class Runtime {
   // options - {dryRun, failFast, filterStacktraces, strict}
   constructor({ eventBroadcaster, options, supportCodeLibrary, testCases }) {
@@ -19,6 +26,9 @@ export default class Runtime {
       duration: 0,
       success: true,
     }
+    this.triggerSave = false
+
+    currentRuntime = this
   }
 
   async runTestRunHooks(key, name) {
@@ -58,6 +68,10 @@ export default class Runtime {
     if (this.shouldCauseFailure(testCaseResult.status)) {
       this.result.success = false
     }
+    if (this.triggerSave) {
+      this.eventBroadcaster.emit('save-test-results', { result: this.result })
+      this.triggerSave = false
+    }
   }
 
   async start() {
@@ -73,6 +87,10 @@ export default class Runtime {
       this.stackTraceFilter.unfilter()
     }
     return this.result.success
+  }
+
+  triggerResultSave() {
+    this.triggerSave = true
   }
 
   shouldCauseFailure(status) {

@@ -45,6 +45,7 @@ export default class Cli {
         eventDataCollector,
         log: ::stream.write,
         stream,
+        outputTo: outputTo && path.resolve(this.cwd, outputTo),
         supportCodeLibrary,
         ...formatOptions,
       }
