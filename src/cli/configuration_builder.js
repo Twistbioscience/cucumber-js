@@ -88,7 +88,7 @@ export default class ConfigurationBuilder {
 
   async expandFeaturePaths(featurePaths) {
     featurePaths = featurePaths.map(p => p.replace(/(:\d+)*$/g, '')) // Strip line numbers
-    return this.expandPaths(featurePaths, '.feature')
+    return (await this.expandPaths(featurePaths, '.feature')).sort()
   }
 
   getFeatureDirectoryPaths(featurePaths) {
